@@ -1,11 +1,12 @@
 """read the config.ini file.
 if directories are set, override the defaults found by get_xdg
 """
+# pylint: disable=import-error
 from __future__ import annotations
 import configparser
 import os
 import sys
-from jsort.set_dirs.get_xdg import get_dirs
+from get_xdg import get_dirs  # type: ignore
 
 
 config_dir: str | None = os.environ.get("XDG_CONFIG_HOME")
@@ -33,10 +34,21 @@ def write_config(config_file: str):
         config.write(configfile)
 
 
-def read_config():
+def read_config() -> list[str]:
     """get options from config.ini"""
     config_file = f"{config_dir}/config.ini"
     config: configparser.ConfigParser = configparser.ConfigParser()
     if not os.path.exists(config_file):
         write_config(config_file)
     config.read(config_file)
+    dirs: list[str] = []
+    for dir_ in dict(config["DIRECTORIES"]).values():
+        dirs.append(expand_tilde(dir_))
+    return dirs
+
+
+def expand_tilde(path: str) -> str:
+    """expand the tilde to home path"""
+    if path[0] == "~":
+        path = os.path.expanduser(path)
+    return path

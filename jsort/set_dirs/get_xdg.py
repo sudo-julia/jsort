@@ -1,6 +1,4 @@
-"""
-map out the locations of all XDG_DIRS defined by 'xdg-user-dir'
-"""
+"""map out the locations of all XDG_DIRS defined by 'xdg-user-dir'"""
 from __future__ import annotations
 from pathlib import Path
 import subprocess
