@@ -1,3 +1,9 @@
+.mypy_cache/
+.python-version
+.vim
+build/
+dist/
 poetry.lock
-*__pycache__*
 *.pyc
+file_sorter.egg-info
+*__pycache__*
